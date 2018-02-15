@@ -31,9 +31,11 @@ getAssetIds=( $(curl -X GET --header 'Accept: application/json' --header 'Author
 
 for id in ${getAssetIds[@]}
 do
-	downloadLinks=( $(curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer '"$accessCode"'' 'https://'"$subdomain"'.showpad.biz/api/v3/assets/'"${id}"'/file/v1' -O -J) )
+	getNames=( $(curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer '"$accessCode"'' 'https://'"$subdomain"'.showpad.biz/api/v3/assets/'"${id}"'?fields=name' | jq .response.name | tr -d \" ) )
+	echo $getNames
+#	download=($(curl -X GET --header 'Accept: application/json' --header 'Authorization: Bearer '"$accessCode"'' 'https://'"$subdomain"'.showpad.biz/api/v3/assets/'"${id}"'/file/v1?filename='"$getNames"'' -O -J) )
 done
 
 
- echo "The script took " 
+ echo "The script took "
  time
